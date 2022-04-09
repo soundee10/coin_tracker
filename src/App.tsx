@@ -4,6 +4,8 @@ import Router from "./Router";
 import {ReactQueryDevtools} from "react-query/devtools";
 import { ThemeProvider } from 'styled-components';
 import {darkTheme, lightTheme} from "./theme";
+import { useRecoilValue } from 'recoil';
+import { isDarkAtom } from './atoms';
 
 
 const GlobalStyle = createGlobalStyle`
@@ -72,11 +74,11 @@ a{
 
 
 function App() {
-  const [isDark, setIsDark] = useState(false);
-  const toggleDark = () => setIsDark((current) => !current);
+  const isDark = useRecoilValue(isDarkAtom);
+  
+  
   return (
   <>
-  <button onClick={toggleDark}> Toggle Mode</button>
   <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
   <GlobalStyle />
   <Router />
