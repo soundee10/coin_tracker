@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import {Helmet} from "react-helmet";
 import { useQuery } from "react-query";
 import {Switch, Route, useParams, useLocation} from "react-router";
 import { Link, useRouteMatch } from "react-router-dom";
@@ -12,6 +13,24 @@ const Title = styled.h1`
   color: ${(props) => props.theme.accentColor};
 `;
 
+const Header = styled.header`
+  height: 15vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Homebutton = styled.button`
+  display:flex;
+  background-color: #4CAF50;
+  border: white;
+  padding: 5px 10px;
+  color: white;
+  
+  text-align: right;
+  border-radius: 12px;
+  
+`;
 const Overview = styled.div`
   display: flex;
   justify-content: space-between;
@@ -64,15 +83,6 @@ const Tab = styled.span<{isActive: boolean}>`
   a {
     display: block;
   }
-`;
-
-
-
-const Header = styled.header`
-  height: 15vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 `;
 
 interface RouteParams{
@@ -171,6 +181,14 @@ function Coin(){
     const loading = infoLoading||tickersLoading;
     return (
     <Container>
+        <Helmet>
+          <title>{state?.name ? state.name : loading ? "Loading..." : infoData?.name}</title>
+        </Helmet>
+          <Homebutton>
+            <Link to="/">
+              Back to Home
+            </Link>
+          </Homebutton>
         <Header>
           <Title>
           {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
@@ -187,11 +205,11 @@ function Coin(){
             </OverviewItem>
             <OverviewItem>
               <span>Symbol:</span>
-              <span>${infoData?.symbol}</span>
+              <span>{infoData?.symbol}</span>
             </OverviewItem>
             <OverviewItem>
-              <span>Open Source:</span>
-              <span>{infoData?.open_source ? "Yes" : "No"}</span>
+              <span>PRICE:</span>
+              <span>${tickersData?.quotes.USD.price.toFixed(3)}</span>
             </OverviewItem>
           </Overview>
           <Description>{infoData?.description}</Description>
